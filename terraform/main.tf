@@ -51,7 +51,7 @@ resource "google_cloud_run_v2_service_iam_binding" "hello-service" {
   project  = google_cloud_run_v2_service.hello-service.project
   role     = "roles/run.invoker"
   members = [
-    "serviceAccount:76919647250-compute@developer.gserviceaccount.com"
+    "serviceAccount:${var.service_account_email}"
   ]
   depends_on = [google_cloud_run_v2_service.hello-service]
 }
