@@ -1,0 +1,12 @@
+version: '3'
+services:
+  hello-service:
+    build: ./hello-service
+  proxy:
+    build: ./proxy
+    ports:
+      - "8080:8080"
+    environment:
+      - REMOTE_URL=http://hello-service:8080
+    depends_on:
+      - hello-service
