@@ -13,20 +13,6 @@ provider "google" {
   zone    = var.zone
 }
 
-module "project-services" {
-  source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 14.2"
-
-  project_id                 = var.project
-  disable_dependent_services = false
-
-  activate_apis = [
-    "cloudresourcemanager.googleapis.com",
-    "run.googleapis.com"
-  ]
-}
-
-
 resource "google_cloud_run_v2_service" "hello-service" {
   name     = "hello-service"
   location = var.region
