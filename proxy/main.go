@@ -11,13 +11,23 @@ import (
 	"google.golang.org/api/idtoken"
 )
 
+func initLogger() {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	slog.SetDefault(logger)
+}
+
 func main() {
-	remote, err := url.Parse(os.Getenv("REMOTE_URL"))
+
+	initLogger()
+
+	rURL := os.Getenv("REMOTE_URL")
+	remote, err := url.Parse(rURL)
 	if err != nil {
+		slog.Error("Failed to parse REMOTE_URL", "REMOTE_URL", rURL)
 		panic(err)
 	}
-	slog.Info("Proxying to" + remote.String())
 
+	slog.Info("Proxying to" + remote.String())
 	handler := func(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 		return func(w http.ResponseWriter, r *http.Request) {
 			ctx := context.Background()
